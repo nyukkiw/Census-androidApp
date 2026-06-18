@@ -73,8 +73,8 @@ class AddEditActivity : AppCompatActivity() {
 
             val umat = UmatEntity(
                 id = existingUmat?.id ?: 0,
-                namaLengkap = nama,
                 nomorKK = binding.etNomorKK.text.toString().trim(),
+                namaLengkap = nama,
                 nomorNIK = binding.etNomorNIK.text.toString().trim(),
                 jenisKelamin = binding.etJenisKelamin.text.toString().trim(),
                 tempatTanggalLahir = binding.etTempatTanggalLahir.text.toString().trim(),

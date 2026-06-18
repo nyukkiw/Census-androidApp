@@ -12,7 +12,7 @@ import java.io.OutputStreamWriter
 object CsvHelper {
 
     private val HEADERS = arrayOf(
-        "ID", "Nama Lengkap", "Nomor KK", "Nomor NIK", "Jenis Kelamin",
+        "ID", "Nama Lengkap Umat", "Nomor KK", "Nomor NIK", "Jenis Kelamin",
         "Tempat Tanggal Lahir", "Tempat Baptis", "Tempat Komuni 1",
         "Tempat Krisma", "Tanggal Menikah", "Tinggal Di APMR Tahun", "Berkas"
     )

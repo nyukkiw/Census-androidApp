@@ -17,6 +17,9 @@ import com.example.census.ui.UmatAdapter
 import com.example.census.utils.CsvHelper
 import com.example.census.viewmodel.UmatViewModel
 import kotlinx.coroutines.launch
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowCompat
 
 class MainActivity : AppCompatActivity() {
 
@@ -58,8 +61,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         setSupportActionBar(binding.toolbar)
         setupRecyclerView()
@@ -120,6 +132,8 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_export -> {
@@ -127,7 +141,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_import -> {
-                importLauncher.launch("text/csv")
+                importLauncher.launch("*/*")
                 true
             }
             else -> super.onOptionsItemSelected(item)
