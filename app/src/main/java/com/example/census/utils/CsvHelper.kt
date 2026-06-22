@@ -1,5 +1,6 @@
 package com.example.census.utils
 
+import android.R
 import android.content.Context
 import android.net.Uri
 import com.example.census.data.UmatEntity
@@ -45,23 +46,40 @@ object CsvHelper {
             context.contentResolver.openInputStream(uri)?.use { inputStream ->
                 val reader = InputStreamReader(inputStream, Charsets.UTF_8)
                 val parser = CSVParser(reader, CSVFormat.DEFAULT.builder()
+                    .setDelimiter(';')
                     .setHeader()
                     .setSkipHeaderRecord(true)
+                    .setIgnoreHeaderCase(true)
+                    .setTrim(true)
                     .build())
                 val list = parser.records.mapNotNull { record ->
                     try {
+
+                        fun get(vararg keys: String): String{
+                            for (key in keys){
+                                try {
+                                    val v = record.get(key)
+                                    if(v != null) return v
+                                    }catch(e: Exception){
+
+                                }
+                            }
+                            return ""
+                        }
+
+
                         UmatEntity(
-                            namaLengkap = record.get("Nama Lengkap"),
-                            nomorKK = record.get("Nomor KK"),
-                            nomorNIK = record.get("Nomor NIK"),
-                            jenisKelamin = record.get("Jenis Kelamin"),
-                            tempatTanggalLahir = record.get("Tempat Tanggal Lahir"),
-                            tempatBaptis = record.get("Tempat Baptis"),
-                            tempatKomuni1 = record.get("Tempat Komuni 1"),
-                            tempatKrisma = record.get("Tempat Krisma"),
-                            tanggalMenikah = record.get("Tanggal Menikah"),
-                            tinggalDiApmrTahun = record.get("Tinggal Di APMR Tahun"),
-                            berkas = record.get("Berkas")
+                            namaLengkap = get("NAMA LENGKAP UMAT", "Nama Lengkap"),
+                            nomorKK = get("NOMOR KK", "Nomor KK"),
+                            nomorNIK = get("NOMOR NIK", "Nomor NIK"),
+                            jenisKelamin = get("JENIS KELAMIN", "Jenis Kelamin"),
+                            tempatTanggalLahir = get("TEMPAT, TANGGAL LAHIR", "TEMPAT TANGGAL LAHIR", "Tempat Tanggal Lahir"),
+                            tempatBaptis = get("TEMPAT BAPTIS", "Tempat Baptis"),
+                            tempatKomuni1 = get("TEMPAT KOMUNI 1", "Tempat Komuni 1"),
+                            tempatKrisma = get("TEMPAT KRISMA", "Tempat Krisma"),
+                            tanggalMenikah = get("TANGGAL MENIKAH", "Tanggal Menikah"),
+                            tinggalDiApmrTahun = get("TINGGAL DI APMR TAHUN", "Tinggal Di APMR Tahun"),
+                            berkas = get("BERKAS", "Berkas")
                         )
                     } catch (e: Exception) { null }
                 }
