@@ -15,6 +15,7 @@ class UmatViewModel(application: Application) : AndroidViewModel(application) {
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
+
     val umatList: StateFlow<List<UmatEntity>> = _searchQuery
         .debounce(300)
         .flatMapLatest { query ->

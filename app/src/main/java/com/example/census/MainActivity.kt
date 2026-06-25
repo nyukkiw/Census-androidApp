@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         uri?.let {
             lifecycleScope.launch {
                 val result = CsvHelper.import(this@MainActivity, it)
+
                 result.fold(
                     onSuccess = { list ->
                         viewModel.insertAll(list)
